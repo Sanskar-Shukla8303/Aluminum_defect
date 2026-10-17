@@ -39,7 +39,7 @@ class YOLODefectTrainer:
         return device
     
     def train(self, model_type='yolov8m-cls', epochs=50, batch_size=32, 
-              imgsz=640, patience=20, lr0=0.001, lrf=0.01):
+              imgsz=640, patience=20, lr0=0.001, lrf=0.01, data_path=None):
         """
         Train YOLO model for defect classification.
         
@@ -51,6 +51,7 @@ class YOLODefectTrainer:
             patience: Early stopping patience (epochs)
             lr0: Initial learning rate
             lrf: Final learning rate ratio
+            data_path: Optional path to data_cls directory
         
         Returns:
             results: Training results
@@ -65,14 +66,28 @@ class YOLODefectTrainer:
         model = YOLO(model_type)
         
         # Create results directory
-        results_dir = Path(self.config['results_dir']) / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        results_dir = Path(self.config.get('results_dir', './results')) / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         results_dir.mkdir(parents=True, exist_ok=True)
         
-        # Dataset path
-        data_path = r"D:\Aluminum_defect\aluminum_defect_yolo\data_cls"
+        # Resolve dataset path dynamically
+        if data_path:
+            resolved_data = Path(data_path)
+        else:
+            candidates = [
+                Path(self.config_path).parent / 'data_cls',
+                Path('data_cls'),
+                Path('./data_cls'),
+                Path(r"D:\Aluminum_defect\aluminum_defect_yolo\data_cls")
+            ]
+            resolved_data = candidates[0]
+            for c in candidates:
+                if c.exists():
+                    resolved_data = c
+                    break
+
         print(f"\n→ Training configuration:")
         print(f"  Model: {model_type}")
-        print(f"  Dataset: {data_path}")
+        print(f"  Dataset: {resolved_data}")
         print(f"  Epochs: {epochs}")
         print(f"  Batch size: {batch_size}")
         print(f"  Image size: {imgsz}")
@@ -82,7 +97,7 @@ class YOLODefectTrainer:
         # Train
         print("\n→ Starting training...")
         results = model.train(
-            data=str(data_path),
+            data=str(resolved_data),
             epochs=epochs,
             batch=batch_size,
             imgsz=imgsz,
@@ -142,6 +157,8 @@ class YOLODefectTrainer:
 
 
 def main():
+    default_config = Path(__file__).resolve().parent.parent / 'config.yaml'
+    
     parser = argparse.ArgumentParser(description='Train YOLO model for aluminum defect detection')
     
     # Model arguments
@@ -163,10 +180,12 @@ def main():
                        help='Initial learning rate (default: 0.001)')
     parser.add_argument('--lrf', type=float, default=0.01,
                        help='Final learning rate ratio (default: 0.01)')
+    parser.add_argument('--data', type=str, default=None,
+                       help='Path to data_cls dataset directory')
     
     # Config
     parser.add_argument('--config', type=str,
-                       default=r'D:\Aluminum_defect\aluminum_defect_yolo\config.yaml',
+                       default=str(default_config),
                        help='Path to config file')
     
     args = parser.parse_args()
@@ -182,7 +201,8 @@ def main():
         imgsz=args.imgsz,
         patience=args.patience,
         lr0=args.lr0,
-        lrf=args.lrf
+        lrf=args.lrf,
+        data_path=args.data
     )
 
 
