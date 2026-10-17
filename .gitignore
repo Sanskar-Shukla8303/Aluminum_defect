@@ -1,0 +1,42 @@
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python & Jupyter cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.ipynb_checkpoints/
+
+# Datasets (large local image archives)
+ali2018/
+**/data_cls/
+**/data_cls.zip
+**/data_split/
+**/data/images/
+**/data/labels/
+**/data/raw/
+*.zip
+*.tar.gz
+
+# Local runs and training logs
+runs/
+results/
+**/results/runs/
+logs/
+*.log
+*.tmp
+*.temp
+.cache/

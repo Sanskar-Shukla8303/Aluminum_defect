@@ -1,0 +1,54 @@
+# Aluminum Defect Detection YOLO Project Configuration
+
+# Data paths
+data_dir: ./data
+models_dir: ./models
+results_dir: ./results
+
+# Dataset configuration
+dataset:
+  name: "Aluminum Defect Detection"
+  num_classes: 11
+  image_format: jpg
+  
+# Training configuration
+training:
+  default_model: yolov8m-cls
+  default_epochs: 50
+  default_batch_size: 32
+  default_image_size: 640
+  
+  # Hardware
+  use_cuda: true
+  num_workers: 4
+  
+  # Hyperparameters
+  learning_rate: 0.001
+  weight_decay: 0.0005
+  momentum: 0.937
+  patience: 20
+  
+# Inference configuration
+inference:
+  confidence_threshold: 0.5
+  image_size: 640
+  
+# Class definitions
+classes:
+  0: "Clean sample"
+  1: "Be injured by a collision"
+  2: "Coating cracking"
+  3: "Convex powder"
+  4: "Dirty spot"
+  5: "Drain bottom"
+  6: "Non-conducting"
+  7: "Orange peel"
+  8: "Pitting"
+  9: "Scuffing"
+  10: "Transverse strip dented"
+
+# Data split
+data_split:
+  train: 0.70
+  val: 0.15
+  test: 0.15

@@ -1,0 +1,17 @@
+names:
+  0: Clean sample
+  1: Be injured by a collision
+  2: Coating cracking
+  3: Convex powder
+  4: Dirty spot
+  5: Drain bottom
+  6: non-conducting
+  7: Orange peel
+  8: pitting
+  9: scuffing
+  10: The transverse strip is dented
+nc: 11
+path: D:\Aluminum_defect\aluminum_defect_yolo\data
+test: images/test
+train: images/train
+val: images/val

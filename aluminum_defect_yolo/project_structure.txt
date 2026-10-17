@@ -1,0 +1,27 @@
+aluminum_defect_yolo/
+├── data/
+│   ├── raw/                      # Raw images from ali2018 dataset
+│   ├── images/                   # Prepared dataset
+│   │   ├── train/
+│   │   ├── val/
+│   │   └── test/
+│   ├── labels/                   # YOLO format annotations
+│   │   ├── train/
+│   │   ├── val/
+│   │   └── test/
+│   └── dataset.yaml              # YOLO dataset configuration
+├── models/
+│   ├── trained/                  # Trained model weights
+│   └── configs/                  # Model configuration files
+├── scripts/
+│   ├── prepare_data.py          # Data preparation script
+│   ├── train.py                 # Training script
+│   ├── evaluate.py              # Evaluation script
+│   ├── inference.py             # Inference/detection script
+│   └── utils.py                 # Utility functions
+├── results/                      # Training results and outputs
+├── notebooks/                    # Jupyter notebooks for analysis
+├── requirements.txt              # Python dependencies
+├── config.yaml                   # Project configuration
+├── README.md                     # Project documentation
+└── .gitignore                    # Git ignore file
